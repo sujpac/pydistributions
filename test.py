@@ -20,20 +20,24 @@ class TestGaussianClass(unittest.TestCase):
         self.assertEqual(self.gaussian.stdev, 2, 'incorrect standard deviation')
 
     def test_readdata(self):
+        self.gaussian.replace_stats_with_data()
         self.assertEqual(self.gaussian.data, \
                          [1, 3, 99, 100, 120, 32, 330, 23, 76, 44, 31], 'data not read in correctly')
 
     def test_meancalculation(self):
+        self.gaussian.replace_stats_with_data()
         self.assertEqual(self.gaussian.calculate_mean(), \
                          sum(self.gaussian.data) / float(len(self.gaussian.data)), 'calculated mean not as expected')
 
     def test_stdevcalculation(self):
+        self.gaussian.replace_stats_with_data()
         self.assertEqual(round(self.gaussian.calculate_stdev(), 2), 92.87, 'sample standard deviation incorrect')
         self.assertEqual(round(self.gaussian.calculate_stdev(0), 2), 88.55, 'population standard deviation incorrect')
 
     def test_pdf(self):
         self.assertEqual(round(self.gaussian.pdf(25), 5), 0.19947, \
                          'pdf function does not give expected result')
+        self.gaussian.replace_stats_with_data()
         self.gaussian.calculate_mean()
         self.gaussian.calculate_stdev()
         self.assertEqual(round(self.gaussian.pdf(75), 5), 0.00429, \
